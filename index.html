@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookedUp — AI Operations Suite for Local Businesses</title>
+<meta name="description" content="BookedUp keeps your calendar full, your customers engaged, and your operations running — on autopilot. AI-powered automation for Phoenix & East Valley businesses.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sand:#F5F0E6;--sand-deep:#EDE5D4;--cream:#FDFBF7;
+  --rust:#C4622D;--rust-light:#D87A48;--rust-dark:#9E4A1E;
+  --navy:#1B2A4A;--navy-light:#2C4470;
+  --slate:#5C6B7A;--slate-light:#8A96A3;
+  --warm-white:#FFFDF9;--warm-gray:#F7F4EE;
+  --charcoal:#2B2B28;
+  --font-display:'DM Serif Display',Georgia,serif;
+  --font-body:'Plus Jakarta Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-body);color:var(--charcoal);background:var(--warm-white);line-height:1.7;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* ========== NAVIGATION ========== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;transition:all .3s ease;background:transparent}
+.nav.scrolled{background:rgba(253,251,247,.95);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-family:var(--font-display);font-size:1.5rem;color:var(--navy);letter-spacing:-.02em}
+.nav-logo span{color:var(--rust)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{font-size:.875rem;font-weight:500;color:var(--slate);transition:color .2s}
+.nav-links a:hover{color:var(--navy)}
+.nav-cta{background:var(--rust);color:white!important;padding:.625rem 1.5rem;border-radius:8px;font-weight:600;font-size:.875rem;transition:all .2s}
+.nav-cta:hover{background:var(--rust-dark);transform:translateY(-1px)}
+
+/* ========== HERO ========== */
+.hero{min-height:100vh;display:flex;align-items:center;padding:8rem 2rem 6rem;background:var(--cream);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-20%;right:-10%;width:60%;height:140%;background:radial-gradient(ellipse at center,rgba(196,98,45,.06) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--warm-white));pointer-events:none}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--sand);color:var(--rust);font-size:.8rem;font-weight:600;padding:.375rem 1rem;border-radius:100px;margin-bottom:1.5rem;letter-spacing:.04em;text-transform:uppercase}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--rust);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,3.75rem);color:var(--navy);line-height:1.15;margin-bottom:1.5rem;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--rust)}
+.hero-sub{font-size:1.125rem;color:var(--slate);max-width:520px;margin-bottom:2.5rem;line-height:1.8}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--rust);color:white;padding:.875rem 2rem;border-radius:10px;font-weight:600;font-size:1rem;border:none;cursor:pointer;transition:all .25s;font-family:var(--font-body);display:inline-flex;align-items:center;gap:.5rem}
+.btn-primary:hover{background:var(--rust-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(196,98,45,.25)}
+.btn-secondary{background:transparent;color:var(--navy);padding:.875rem 2rem;border-radius:10px;font-weight:600;font-size:1rem;border:2px solid var(--sand-deep);cursor:pointer;transition:all .25s;font-family:var(--font-body)}
+.btn-secondary:hover{border-color:var(--navy);background:var(--sand)}
+
+/* Hero visual */
+.hero-visual{position:relative}
+.hero-card{background:white;border-radius:16px;padding:2rem;box-shadow:0 4px 32px rgba(27,42,74,.08),0 1px 4px rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.04)}
+.hero-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+.hero-card-title{font-weight:700;font-size:1rem;color:var(--navy)}
+.hero-card-badge{background:#E8F5E9;color:#2E7D32;font-size:.75rem;font-weight:600;padding:.25rem .75rem;border-radius:100px}
+.hero-stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.hero-stat{text-align:center;padding:1rem;background:var(--warm-gray);border-radius:10px}
+.hero-stat-num{font-size:1.5rem;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+.hero-stat-label{font-size:.7rem;color:var(--slate-light);font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem}
+.hero-feed{display:flex;flex-direction:column;gap:.75rem}
+.hero-feed-item{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--warm-gray);border-radius:10px;font-size:.8rem}
+.hero-feed-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hero-feed-dot.green{background:#4CAF50}
+.hero-feed-dot.blue{background:#2196F3}
+.hero-feed-dot.amber{background:#FF9800}
+.hero-feed-text{color:var(--slate);flex:1}
+.hero-feed-time{color:var(--slate-light);font-size:.7rem;font-weight:500}
+.hero-float{position:absolute;background:white;border-radius:12px;padding:1rem 1.25rem;box-shadow:0 8px 32px rgba(0,0,0,.1);font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:.5rem;animation:float 4s ease-in-out infinite}
+.hero-float-1{top:-12px;right:-20px;color:#2E7D32}
+.hero-float-2{bottom:40px;left:-30px;color:var(--rust);animation-delay:2s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* ========== SECTIONS (shared) ========== */
+.section{padding:6rem 2rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-label{font-size:.8rem;font-weight:600;color:var(--rust);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem}
+.section-title{font-family:var(--font-display);font-size:clamp(2rem,3.5vw,2.75rem);color:var(--navy);line-height:1.2;margin-bottom:1rem;letter-spacing:-.02em}
+.section-desc{font-size:1.05rem;color:var(--slate);max-width:600px;line-height:1.8}
+
+/* ========== WHAT WE DO ========== */
+.what{background:var(--warm-white)}
+.what-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+.what-card{background:white;border:1px solid rgba(0,0,0,.05);border-radius:14px;padding:2rem;transition:all .3s}
+.what-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(27,42,74,.08)}
+.what-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;font-size:1.25rem}
+.what-icon.sched{background:#FFF3E0;color:#E65100}
+.what-icon.comms{background:#E8F5E9;color:#2E7D32}
+.what-icon.social{background:#E3F2FD;color:#1565C0}
+.what-icon.leads{background:#FFF8E1;color:#F57F17}
+.what-icon.ops{background:#F3E5F5;color:#6A1B9A}
+.what-icon.rep{background:#FFEBEE;color:#C62828}
+.what-card h3{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.5rem}
+.what-card p{font-size:.875rem;color:var(--slate);line-height:1.7}
+.what-card .tag{display:inline-block;font-size:.7rem;font-weight:600;padding:.2rem .6rem;border-radius:100px;margin-top:1rem}
+.tag-live{background:#E8F5E9;color:#2E7D32}
+.tag-soon{background:#FFF8E1;color:#F57F17}
+.tag-planned{background:var(--sand);color:var(--slate)}
+
+/* ========== HOW IT WORKS ========== */
+.how{background:var(--sand)}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:3rem;position:relative}
+.how-step{text-align:center;padding:2rem 1.5rem;position:relative}
+.how-step::after{content:'';position:absolute;top:2.75rem;right:0;width:50%;height:2px;background:var(--sand-deep)}
+.how-step:last-child::after{display:none}
+.how-step::before{content:'';position:absolute;top:2.75rem;left:0;width:50%;height:2px;background:var(--sand-deep)}
+.how-step:first-child::before{display:none}
+.how-num{width:40px;height:40px;border-radius:50%;background:var(--rust);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;margin:0 auto 1.25rem;position:relative;z-index:2}
+.how-step h3{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.5rem}
+.how-step p{font-size:.8rem;color:var(--slate);line-height:1.6}
+
+/* ========== RESULTS ========== */
+.results{background:var(--warm-white)}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+.result-card{background:white;border:1px solid rgba(0,0,0,.05);border-radius:14px;padding:2rem;position:relative;overflow:hidden;transition:all .3s}
+.result-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(27,42,74,.08)}
+.result-card-icon{font-size:2rem;margin-bottom:1rem}
+.result-card-type{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--rust);margin-bottom:.5rem}
+.result-card h3{font-size:1.15rem;font-weight:700;color:var(--navy);margin-bottom:.75rem;line-height:1.3}
+.result-card-problem{font-size:.85rem;color:var(--slate);line-height:1.7;margin-bottom:1.25rem}
+.result-card-divider{width:100%;height:1px;background:var(--sand);margin-bottom:1.25rem}
+.result-card-heading{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--slate-light);margin-bottom:.75rem}
+.result-card-list{list-style:none;margin-bottom:1.25rem}
+.result-card-list li{font-size:.85rem;color:var(--charcoal);padding:.35rem 0;padding-left:1.5rem;position:relative;line-height:1.5}
+.result-card-list li::before{content:'→';position:absolute;left:0;color:var(--rust);font-weight:700}
+.result-projections{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;padding-top:1rem;border-top:1px solid var(--sand)}
+.result-proj{text-align:center;padding:.5rem;background:var(--warm-gray);border-radius:8px}
+.result-proj-num{font-size:1.1rem;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+.result-proj-label{font-size:.65rem;color:var(--slate-light);text-transform:uppercase;letter-spacing:.04em;margin-top:.125rem}
+
+/* ========== PRICING ========== */
+.pricing{background:var(--sand)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+.price-card{background:white;border:1px solid rgba(0,0,0,.05);border-radius:14px;padding:2rem;position:relative;transition:all .3s}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(27,42,74,.08)}
+.price-card.featured{border:2px solid var(--rust);transform:scale(1.03)}
+.price-card.featured:hover{transform:scale(1.03) translateY(-4px)}
+.price-card.featured::after{content:'Most popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--rust);color:white;font-size:.7rem;font-weight:600;padding:.25rem 1rem;border-radius:100px;text-transform:uppercase;letter-spacing:.04em}
+.price-name{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--rust);margin-bottom:.5rem}
+.price-amount{font-family:var(--font-display);font-size:2.5rem;color:var(--navy);margin-bottom:.25rem}
+.price-amount span{font-family:var(--font-body);font-size:.9rem;color:var(--slate-light);font-weight:400}
+.price-desc{font-size:.85rem;color:var(--slate);margin-bottom:1.5rem;line-height:1.6}
+.price-features{list-style:none;margin-bottom:2rem}
+.price-features li{font-size:.85rem;color:var(--charcoal);padding:.4rem 0;padding-left:1.5rem;position:relative;line-height:1.5}
+.price-features li::before{content:'✓';position:absolute;left:0;color:var(--rust);font-weight:700}
+.price-btn{display:block;width:100%;text-align:center;padding:.75rem;border-radius:10px;font-weight:600;font-size:.9rem;transition:all .2s;font-family:var(--font-body);cursor:pointer;border:none}
+.price-btn-primary{background:var(--rust);color:white}
+.price-btn-primary:hover{background:var(--rust-dark)}
+.price-btn-outline{background:transparent;color:var(--navy);border:2px solid var(--sand-deep)}
+.price-btn-outline:hover{border-color:var(--navy);background:var(--sand)}
+
+/* ========== CONTACT ========== */
+.contact{background:var(--warm-white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:3rem}
+.contact-info h3{font-family:var(--font-display);font-size:1.5rem;color:var(--navy);margin-bottom:1rem}
+.contact-info p{font-size:.95rem;color:var(--slate);line-height:1.8;margin-bottom:2rem}
+.contact-detail{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;font-size:.9rem;color:var(--charcoal)}
+.contact-detail-icon{width:36px;height:36px;border-radius:10px;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.contact-form{display:flex;flex-direction:column;gap:1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:.375rem}
+.form-group label{font-size:.8rem;font-weight:600;color:var(--navy)}
+.form-group input,.form-group select,.form-group textarea{padding:.75rem 1rem;border:1.5px solid var(--sand-deep);border-radius:10px;font-family:var(--font-body);font-size:.9rem;background:white;color:var(--charcoal);transition:border-color .2s;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--rust)}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-submit{background:var(--rust);color:white;padding:.875rem 2rem;border-radius:10px;font-weight:600;font-size:1rem;border:none;cursor:pointer;transition:all .25s;font-family:var(--font-body);margin-top:.5rem}
+.form-submit:hover{background:var(--rust-dark);transform:translateY(-2px)}
+.form-divider{display:flex;align-items:center;gap:1rem;margin:.5rem 0;color:var(--slate-light);font-size:.8rem}
+.form-divider::before,.form-divider::after{content:'';flex:1;height:1px;background:var(--sand-deep)}
+.book-call-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.875rem;border-radius:10px;font-weight:600;font-size:.9rem;background:var(--navy);color:white;border:none;cursor:pointer;transition:all .25s;font-family:var(--font-body)}
+.book-call-btn:hover{background:var(--navy-light);transform:translateY(-2px)}
+
+/* ========== FOOTER ========== */
+.footer{background:var(--navy);color:rgba(255,255,255,.7);padding:3rem 2rem;text-align:center}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-logo{font-family:var(--font-display);font-size:1.5rem;color:white;margin-bottom:.5rem}
+.footer-logo span{color:var(--rust-light)}
+.footer p{font-size:.85rem;margin-top:.5rem}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin-top:1.5rem}
+.footer-links a{font-size:.8rem;color:rgba(255,255,255,.5);transition:color .2s}
+.footer-links a:hover{color:white}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;text-align:center}
+  .hero-sub{margin-left:auto;margin-right:auto}
+  .hero-actions{justify-content:center}
+  .hero-visual{max-width:420px;margin:0 auto}
+  .hero-float{display:none}
+  .what-grid{grid-template-columns:1fr}
+  .how-steps{grid-template-columns:1fr 1fr;gap:1rem}
+  .how-step::after,.how-step::before{display:none}
+  .results-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .price-card.featured{transform:none}
+  .price-card.featured:hover{transform:translateY(-4px)}
+  .contact-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+
+/* ========== ANIMATIONS ========== */
+.fade-up.animate{opacity:0;transform:translateY(24px);transition:all .6s cubic-bezier(.25,.46,.45,.94)}
+.fade-up.animate.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">Booked<span>Up</span></div>
+    <div class="nav-links">
+      <a href="#modules">Modules</a>
+      <a href="#how">How It Works</a>
+      <a href="#results">Industries</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact" class="nav-cta">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">Now serving Phoenix & East Valley</div>
+      <h1>Your business runs itself. <em>You run the business.</em></h1>
+      <p class="hero-sub">BookedUp is an AI operations suite that handles scheduling, customer follow-ups, and marketing for local businesses — so your calendar stays full and nothing falls through the cracks.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Get a Free Audit →</a>
+        <a href="#modules" class="btn-secondary">See What It Does</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="hero-card-title">Today's Dashboard</div>
+          <div class="hero-card-badge">● All Systems Active</div>
+        </div>
+        <div class="hero-stat-grid">
+          <div class="hero-stat">
+            <div class="hero-stat-num">12</div>
+            <div class="hero-stat-label">Booked Today</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">94%</div>
+            <div class="hero-stat-label">Calendar Full</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">23</div>
+            <div class="hero-stat-label">Messages Sent</div>
+          </div>
+        </div>
+        <div class="hero-feed">
+          <div class="hero-feed-item">
+            <div class="hero-feed-dot green"></div>
+            <div class="hero-feed-text">Auto-confirmed booking: Johnson HVAC repair</div>
+            <div class="hero-feed-time">2m ago</div>
+          </div>
+          <div class="hero-feed-item">
+            <div class="hero-feed-dot blue"></div>
+            <div class="hero-feed-text">Follow-up sent to 6 past clients for re-booking</div>
+            <div class="hero-feed-time">28m ago</div>
+          </div>
+          <div class="hero-feed-item">
+            <div class="hero-feed-dot amber"></div>
+            <div class="hero-feed-text">Cancellation filled: Martinez moved to 2pm slot</div>
+            <div class="hero-feed-time">1h ago</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-float hero-float-1">📅 +38% bookings this month</div>
+      <div class="hero-float hero-float-2">⚡ 47 hours saved this week</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section class="section what" id="modules">
+  <div class="section-inner">
+    <div class="section-label">What BookedUp Does</div>
+    <div class="section-title">Six modules. One system.<br>Your business on autopilot.</div>
+    <p class="section-desc">Pick the modules you need. We configure and deploy them for your specific business.</p>
+    <div class="what-grid">
+      <div class="what-card fade-up">
+        <div class="what-icon sched">📅</div>
+        <h3>Smart Scheduling</h3>
+        <p>Auto-confirms bookings, sends reminders, fills cancellations from your waitlist, and optimizes your calendar so no slot goes empty.</p>
+        <span class="tag tag-live">Available now</span>
+      </div>
+      <div class="what-card fade-up">
+        <div class="what-icon comms">💬</div>
+        <h3>Customer Comms</h3>
+        <p>Automated texts and emails — appointment confirmations, follow-ups, thank-you messages, and re-engagement for customers who haven't been back.</p>
+        <span class="tag tag-live">Available now</span>
+      </div>
+      <div class="what-card fade-up">
+        <div class="what-icon social">📱</div>
+        <h3>Social Autopilot</h3>
+        <p>AI-generated social media content tailored to your business. Before-and-after posts, seasonal promotions, review highlights — scheduled and posted automatically.</p>
+        <span class="tag tag-soon">Coming soon</span>
+      </div>
+      <div class="what-card fade-up">
+        <div class="what-icon leads">🎯</div>
+        <h3>Lead Engine</h3>
+        <p>Captures leads from your website and forms, auto-qualifies them, sends instant follow-ups, and tracks your pipeline so no lead goes cold.</p>
+        <span class="tag tag-soon">Coming soon</span>
+      </div>
+      <div class="what-card fade-up">
+        <div class="what-icon ops">📊</div>
+        <h3>Ops Intelligence</h3>
+        <p>Your business dashboard: revenue tracking, inventory alerts, automated weekly reports, and KPIs that tell you what's actually working.</p>
+        <span class="tag tag-planned">On roadmap</span>
+      </div>
+      <div class="what-card fade-up">
+        <div class="what-icon rep">⭐</div>
+        <h3>Reputation Agent</h3>
+        <p>Automatically requests reviews after every job, monitors what people say about you online, and drafts responses so your reputation stays strong.</p>
+        <span class="tag tag-planned">On roadmap</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how" id="how">
+  <div class="section-inner">
+    <div class="section-label">How It Works</div>
+    <div class="section-title">Up and running in weeks, not months.</div>
+    <p class="section-desc">We handle everything. You keep running your business.</p>
+    <div class="how-steps">
+      <div class="how-step fade-up">
+        <div class="how-num">1</div>
+        <h3>Free Operations Audit</h3>
+        <p>We walk your business, identify the top 3 workflows eating your time, and show you exactly what BookedUp can automate.</p>
+      </div>
+      <div class="how-step fade-up">
+        <div class="how-num">2</div>
+        <h3>Custom Configuration</h3>
+        <p>We build your BookedUp instance — configured for your specific calendar, phone number, customer base, and processes.</p>
+      </div>
+      <div class="how-step fade-up">
+        <div class="how-num">3</div>
+        <h3>Deploy & Train</h3>
+        <p>We turn it on, walk your team through the dashboard, and make sure everything runs smoothly from day one.</p>
+      </div>
+      <div class="how-step fade-up">
+        <div class="how-num">4</div>
+        <h3>Monitor & Optimize</h3>
+        <p>We stay on. Monthly check-ins, performance tweaks, and new automations as your business grows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT BOOKEDUP DOES FOR YOUR INDUSTRY -->
+<section class="section results" id="results">
+  <div class="section-inner">
+    <div class="section-label">Your Industry</div>
+    <div class="section-title">Here's what BookedUp does for businesses like yours.</div>
+    <p class="section-desc">Every local business bleeds time on the same things. BookedUp stops the bleeding.</p>
+    <div class="results-grid">
+      <div class="result-card fade-up">
+        <div class="result-card-icon">🔧</div>
+        <div class="result-card-type">Home Services</div>
+        <h3>HVAC, Plumbing, Electrical, Pest Control</h3>
+        <p class="result-card-problem">You're losing leads because you can't return calls fast enough. Repeat customers forget you exist. Your schedule has gaps on Tuesday but you're double-booked on Thursday.</p>
+        <div class="result-card-divider"></div>
+        <div class="result-card-heading">BookedUp handles</div>
+        <ul class="result-card-list">
+          <li>Instant lead response (text back in under 60 seconds)</li>
+          <li>Auto-schedule around drive time and job type</li>
+          <li>Seasonal reminders ("Time for your AC tune-up")</li>
+          <li>Post-job review requests to build your Google rating</li>
+        </ul>
+        <div class="result-projections">
+          <div class="result-proj">
+            <div class="result-proj-num">10-15 hrs</div>
+            <div class="result-proj-label">Saved per week</div>
+          </div>
+          <div class="result-proj">
+            <div class="result-proj-num">90%+</div>
+            <div class="result-proj-label">Calendar utilization</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-card fade-up">
+        <div class="result-card-icon">🏪</div>
+        <div class="result-card-type">Retail & Hardware</div>
+        <h3>Independent Stores, Specialty Shops, Multi-Location</h3>
+        <p class="result-card-problem">You're reordering too late or too early. Your best customers haven't been in for months and you don't know why. You're posting on social media when you remember — which is never.</p>
+        <div class="result-card-divider"></div>
+        <div class="result-card-heading">BookedUp handles</div>
+        <ul class="result-card-list">
+          <li>Inventory alerts before you run out of top sellers</li>
+          <li>"We miss you" texts to lapsed customers</li>
+          <li>Automated social posts featuring new arrivals and deals</li>
+          <li>Weekly business performance reports delivered to your phone</li>
+        </ul>
+        <div class="result-projections">
+          <div class="result-proj">
+            <div class="result-proj-num">2-3x</div>
+            <div class="result-proj-label">Repeat visits</div>
+          </div>
+          <div class="result-proj">
+            <div class="result-proj-num">Zero</div>
+            <div class="result-proj-label">Missed stockouts</div>
+          </div>
+        </div>
+      </div>
+      <div class="result-card fade-up">
+        <div class="result-card-icon">🌿</div>
+        <div class="result-card-type">Landscaping & Cleaning</div>
+        <h3>Lawn Care, Pool Service, Cleaning, Pressure Washing</h3>
+        <p class="result-card-problem">You spend Sunday night texting clients to confirm Monday's schedule. Half your leads come in while you're on a job and you can't answer. You know you should follow up — but you never do.</p>
+        <div class="result-card-divider"></div>
+        <div class="result-card-heading">BookedUp handles</div>
+        <ul class="result-card-list">
+          <li>Auto-confirm every recurring appointment (no more Sunday texts)</li>
+          <li>Instant text reply to new inquiries while you're working</li>
+          <li>Automated follow-up sequence that closes leads for you</li>
+          <li>Route-optimized scheduling to cut drive time</li>
+        </ul>
+        <div class="result-projections">
+          <div class="result-proj">
+            <div class="result-proj-num">3-5 hrs</div>
+            <div class="result-proj-label">Admin saved weekly</div>
+          </div>
+          <div class="result-proj">
+            <div class="result-proj-num">< 60 sec</div>
+            <div class="result-proj-label">Lead response time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section pricing" id="pricing">
+  <div class="section-inner">
+    <div class="section-label">Simple Pricing</div>
+    <div class="section-title">Starts at less than a part-time hire.</div>
+    <p class="section-desc">No contracts. No hidden fees. Cancel anytime.</p>
+    <div class="pricing-grid">
+      <div class="price-card fade-up">
+        <div class="price-name">Starter</div>
+        <div class="price-amount">$500<span>/mo</span></div>
+        <div class="price-desc">Perfect for solo operators who want scheduling and customer communication on autopilot.</div>
+        <ul class="price-features">
+          <li>Smart Scheduling agent</li>
+          <li>Customer Comms agent</li>
+          <li>Basic dashboard</li>
+          <li>3 hours/month support</li>
+          <li>SMS & email notifications</li>
+        </ul>
+        <button class="price-btn price-btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+      </div>
+      <div class="price-card featured fade-up">
+        <div class="price-name">Growth</div>
+        <div class="price-amount">$1,000<span>/mo</span></div>
+        <div class="price-desc">For growing businesses that want a full marketing and lead generation engine.</div>
+        <ul class="price-features">
+          <li>Everything in Starter</li>
+          <li>Social Autopilot agent</li>
+          <li>Lead Engine agent</li>
+          <li>Full metrics dashboard</li>
+          <li>5 hours/month support</li>
+        </ul>
+        <button class="price-btn price-btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+      </div>
+      <div class="price-card fade-up">
+        <div class="price-name">Pro</div>
+        <div class="price-amount">$1,500<span>/mo</span></div>
+        <div class="price-desc">The full suite for multi-location businesses with complex operations.</div>
+        <ul class="price-features">
+          <li>All 6 modules</li>
+          <li>Custom reports & dashboards</li>
+          <li>8 hours/month + priority</li>
+          <li>Multi-location support</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <button class="price-btn price-btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="section-inner">
+    <div class="section-label">Get Started</div>
+    <div class="section-title">Let's see what BookedUp can do for your business.</div>
+    <p class="section-desc">Start with a free, no-obligation operations audit. We'll walk your business and show you exactly what we can automate.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>What happens next?</h3>
+        <p>After you reach out, we'll schedule a quick call to learn about your business. Then we'll come on-site for a free operations audit — no commitment, no pressure. If we can help, we'll show you exactly how.</p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          <div>Serving Phoenix & East Valley — Mesa, Gilbert, Chandler, Queen Creek, Apache Junction</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📧</div>
+          <div><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2d465f445e59444c436d4a48594f4242464849585d034e4240">[email&#160;protected]</a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📞</div>
+          <div>(480) 555-0000</div>
+        </div>
+      </div>
+      <div>
+        <form class="contact-form" onsubmit="event.preventDefault();this.querySelector('.form-submit').textContent='Sent! We\'ll be in touch.';this.querySelector('.form-submit').disabled=true">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your name</label>
+              <input type="text" placeholder="John Smith" required>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="john@example.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Business name</label>
+              <input type="text" placeholder="Smith's HVAC">
+            </div>
+            <div class="form-group">
+              <label>Business type</label>
+              <select>
+                <option value="">Select one...</option>
+                <option>Home Services (HVAC, Plumbing, Electrical)</option>
+                <option>Landscaping / Lawn Care</option>
+                <option>Retail / Hardware</option>
+                <option>Auto / Mechanic Shop</option>
+                <option>Property Management</option>
+                <option>Pest Control</option>
+                <option>Cleaning Services</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>What's taking up most of your time?</label>
+            <textarea placeholder="e.g., Following up with leads, managing my schedule, keeping up with social media..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Request Free Audit →</button>
+          <div class="form-divider">or</div>
+          <button type="button" class="book-call-btn" onclick="window.open('https://calendly.com/YOUR-LINK','_blank')">📞 Book a 15-Minute Call</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">Booked<span>Up</span></div>
+    <p>AI Operations Suite for Local Businesses</p>
+    <p>Serving Phoenix & East Valley, Arizona</p>
+    <div class="footer-links">
+      <a href="#modules">Modules</a>
+      <a href="#how">How It Works</a>
+      <a href="#results">Industries</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <p style="margin-top:2rem;font-size:.75rem;opacity:.5">© 2026 BookedUp. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// Scroll nav
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)});
+
+// Fade-up on scroll - add animate class via JS so cards are visible if JS fails
+const fadeEls=document.querySelectorAll('.fade-up');
+fadeEls.forEach(el=>el.classList.add('animate'));
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+fadeEls.forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
